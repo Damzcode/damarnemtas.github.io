@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f1f1f1;
+        }
+
+        .calculator {
+            width: 300px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .display {
+            background-color: #eaeaea;
+            padding: 20px;
+            text-align: right;
+            font-size: 2rem;
+            color: #333;
+            border-bottom: 1px solid #ccc;
+            min-height: 50px;
+        }
+
+        .error {
+            color: red !important;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background-color: #ccc;
+        }
+
+        button {
+            font-size: 1.5rem;
+            padding: 20px;
+            background-color: #fff;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:active {
+            background-color: #ddd;
+        }
+
+        .operator {
+            background-color: #f9a825;
+            color: #fff;
+        }
+
+        .operator:active {
+            background-color: #d48806;
+        }
+
+        .equal {
+            grid-column: span 2;
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        .equal:active {
+            background-color: #388e3c;
+        }
+
+        .clear {
+            background-color: #d32f2f;
+            color: #fff;
+        }
+
+        .clear:active {
+            background-color: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button onclick="appendValue('(')">(</button>
+        <button onclick="appendValue(')')">)</button>
+        <button class="operator" onclick="appendValue('/')">&divide;</button>
+
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+        <button class="operator" onclick="appendValue('*')">&times;</button>
+
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button class="operator" onclick="appendValue('-')">&minus;</button>
+
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button class="operator" onclick="appendValue('+')">+</button>
+
+        <button onclick="appendValue('0')">0</button>
+        <button onclick="appendValue('.')">.</button>
+        <button class="equal" onclick="calculate()">=</button>
+    </div>
+</div>
+
+<script>
+    let display = document.getElementById('display');
+
+    function clearDisplay() {
+        display.textContent = '0';
+        display.classList.remove("error"); 
+    }
+
+    function appendValue(value) {
+        if (display.textContent === '0' || display.textContent === 'Error') {
+            display.textContent = value;
+            display.classList.remove("error"); 
+        } else {
+            display.textContent += value;
+        }
+    }
+
+    function calculate() {
+        let expression = display.textContent;
+
+        
+        if (/\/0(?!\d)/.test(expression)) {
+            alert("Bilangan ini tidak bisa dibagi 0");
+            display.textContent = "Error";
+            display.classList.add("error");
+            return;
+        }
+
+        try {
+            display.textContent = eval(expression);
+        } catch (error) {
+            display.textContent = 'Error';
+            display.classList.add("error");
+        }
+    }
+</script>
+
+</body>
+</html>
